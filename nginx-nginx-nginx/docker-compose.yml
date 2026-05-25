@@ -1,8 +1,27 @@
+# Общие настройки для всех воркеров Nginx (YAML Anchor)
+x-nginx-common: &nginx-common
+  image: nginx:1.27-alpine
+  volumes:
+    - ./nginx/proxy.conf.template:/etc/nginx/templates/default.conf.template:ro
+  networks:
+    xffnet:
+  # Ограничение ресурсов и логов для каждого Nginx
+  deploy:
+    resources:
+      limits:
+        cpus: '0.5'
+        memory: 128M
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
 services:
   app:
     image: python:3.12-alpine
     container_name: app
-    user: "1000:1000" 
+    user: "1000:1000" # ИСПРАВЛЕНО: Безопасный запуск от не-root пользователя
     working_dir: /app
     volumes:
       - ./app:/app:ro
@@ -10,87 +29,76 @@ services:
     networks:
       xffnet:
         ipv4_address: 172.28.0.100
-    # Лимиты ресурсов и логов
     deploy:
       resources:
         limits:
-          cpus: '0.5'        # Максимум 50% от одного ядра CPU
-          memory: 128M       # Максимум 128 МБ оперативной памяти
+          cpus: '0.5'
+          memory: 128M
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"      # Один файл лога не больше 10 Мегабайт
-        max-file: "3"        # Хранить не более 3 файлов (старые затираются)
+        max-size: "10m"
+        max-file: "3"
 
-  nginx-1:
+  lb:
     image: nginx:1.27-alpine
-    container_name: nginx1 
-  
+    container_name: lb
     ports:
-      - "8081:80"
+      - "8080:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/lb.conf:/etc/nginx/nginx.conf:ro
+    # ИСПРАВЛЕНО: Оставили простую зависимость, чтобы избежать жестких петель при запуске
+    depends_on:
+      - app
+    networks:
+      xffnet:
+        ipv4_address: 172.28.0.10
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  nginx1:
+    <<: *nginx-common
+    container_name: nginx1
+    environment:
+      NEXT_UPSTREAM: nginx2:80
+      PUBLIC_ENTRYPOINT: "1"
     depends_on:
       - app
     networks:
       xffnet:
         ipv4_address: 172.28.0.11
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 128M
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
 
-  nginx-2:
-    image: nginx:1.27-alpine
+  nginx2:
+    <<: *nginx-common
     container_name: nginx2
-    ports:
-      - "8082:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      NEXT_UPSTREAM: nginx3:80
+      PUBLIC_ENTRYPOINT: "1"
     depends_on:
       - app
     networks:
       xffnet:
         ipv4_address: 172.28.0.12
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 128M
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
 
-  nginx-3:
-    image: nginx:1.27-alpine
+  nginx3:
+    <<: *nginx-common
     container_name: nginx3
-    ports:
-      - "8083:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      NEXT_UPSTREAM: app:8000
+      PUBLIC_ENTRYPOINT: "1"
     depends_on:
       - app
     networks:
       xffnet:
         ipv4_address: 172.28.0.13
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 128M
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
 
 networks:
   xffnet:

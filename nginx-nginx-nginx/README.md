@@ -1,6 +1,6 @@
 # 🛡️ Dynamic Nginx Proxy Chain & Spoofing Protection Stand
 
-![Docker Compose](https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/1200/external-docker-a-set-of-coupled-software-as-a-service-logo-shadow-tal-revivo.jpg "Docker Compose")
+![Docker](https://shields.io-2496ED?style=for-the-badge&logo=docker&logoColor=white) 
 ![Nginx](https://shields.io)
 ![Python](https://shields.io)
 

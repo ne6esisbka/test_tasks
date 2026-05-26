@@ -1,7 +1,7 @@
 # 🛡️ Dynamic Nginx Proxy Chain & Spoofing Protection Stand
 
 [![Docker Compose](https://img.shields.io/badge/docker_compose-blue?logo=docker)
-[![Nginx](https://shields.io)](https://img.shields.io/badge/nginx-green?logo=nginx)
+[![Nginx](https://img.shields.io/badge/nginx-green?logo=nginx)
 [![Python](https://shields.io)](https://python.org))
 
 Архитектурный стенд, эмулирующий работу каскада обратных прокси-серверов (Reverse Proxy) с балансировкой нагрузки Round-Robin, сквозной валидацией сетевых заголовков и защитой от подмены IP-адресов (**IP Spoofing**) на любом этапе прохождения трафика.

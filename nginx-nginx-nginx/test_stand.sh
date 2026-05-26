@@ -44,7 +44,7 @@ echo -e "${YELLOW}ТЕСТ №3: Эмуляция внутренней цепо�
 INTERNAL_RESPONSE=$(docker exec -it nginx1 wget -qO- --header="X-Real-IP: 172.28.0.10" http://nginx3/)
 echo -e " Ответ цепочки: ${GREEN}$INTERNAL_RESPONSE${NC}"
 
+echo -e "${YELLOW}Финальный тест X-Forwarded-For: 9.9.9.9, 172.28.0.1 (nginx1 -> nginx3 -> app)"
+FINALE_RESPONSE=$(docker exec -it nginx1 curl -s -H "X-Forwarded-For: 9.9.9.9, 172.28.0.1" -H "X-Next-Proxy: nginx2" http://nginx3/)
+echo -e " Ответ цепочки ${GREEN}$FINALE_RESPONSE${NC}"
 echo -e "${BLUE}=== ТЕСТИРОВАНИЕ ЗАВЕРШЕНО ===${NC}"
-
-echo -e "Финальный тест"
-docker exec -it nginx1 curl -s -H "X-Forwarded-For: 9.9.9.9, 172.28.0.1" -H "X-Next-Proxy: nginx2" http://nginx3/

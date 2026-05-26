@@ -1,6 +1,6 @@
 # 🛡️ Dynamic Nginx Proxy Chain & Spoofing Protection Stand
 
-![Docker Compose](https://i0.wp.com/dotsandbrackets.com/wp-content/uploads/2016/10/compose-logo.jpg?fit=622%2C678&ssl=1 "Docker Compose")
+![alt text](https://i0.wp.com/dotsandbrackets.com/wp-content/uploads/2016/10/compose-logo.jpg?fit=622%2C678&ssl=1 "Docker Compose")
 ![Nginx](https://shields.io)
 ![Python](https://shields.io)
 

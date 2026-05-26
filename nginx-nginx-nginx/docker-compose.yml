@@ -21,7 +21,7 @@ services:
   app:
     image: python:3.12-alpine
     container_name: app
-    user: "1000:1000" # ИСПРАВЛЕНО: Безопасный запуск от не-root пользователя
+    user: "1000:1000"
     working_dir: /app
     volumes:
       - ./app:/app:ro
@@ -47,7 +47,6 @@ services:
       - "8080:80"
     volumes:
       - ./nginx/lb.conf:/etc/nginx/nginx.conf:ro
-    # ИСПРАВЛЕНО: Оставили простую зависимость, чтобы избежать жестких петель при запуске
     depends_on:
       - app
     networks:

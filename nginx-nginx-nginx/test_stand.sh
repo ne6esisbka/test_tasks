@@ -46,5 +46,6 @@ echo -e " Ответ цепочки: ${GREEN}$INTERNAL_RESPONSE${NC}"
 
 echo -e "${YELLOW}Финальный тест X-Forwarded-For: 9.9.9.9, 172.28.0.1 (nginx1 -> nginx3 -> app)"
 FINALE_RESPONSE=$(docker exec -it nginx1 curl -s -H "X-Forwarded-For: 9.9.9.9, 172.28.0.1" -H "X-Next-Proxy: nginx2" http://nginx3/)
-echo -e " Ответ цепочки ${GREEN}$FINALE_RESPONSE${NC}"
+echo -e "${YELLOW}Ответ цепочки: ${GREEN}$FINALE_RESPONSE${NC}"
+
 echo -e "${BLUE}=== ТЕСТИРОВАНИЕ ЗАВЕРШЕНО ===${NC}"

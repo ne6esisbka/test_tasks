@@ -1,6 +1,6 @@
 # 🛡️ Dynamic Nginx Proxy Chain & Spoofing Protection Stand
 
-[![Docker Compose](/assets/images/docker-logo.jpg)](https://docker.com)
+[![Docker Compose](/images/docker-logo.jpg)](https://docker.com)
 [![Nginx](https://shields.io)](https://nginx.org)
 [![Python](https://shields.io)](https://python.org)
 

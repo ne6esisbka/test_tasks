@@ -1,6 +1,6 @@
 # 🛡️ Dynamic Nginx Proxy Chain & Spoofing Protection Stand
 
-![Docker](https://shields.io-2496ED?style=for-the-badge&logo=docker&logoColor=white) 
+![Docker Compose](https://shields.io)
 ![Nginx](https://shields.io)
 ![Python](https://shields.io)
 
